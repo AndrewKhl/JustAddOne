@@ -12,6 +12,9 @@ namespace JustAddOne.Pages
     {
         private readonly ILogger<IndexModel> _logger;
 
+
+        public static long CountClicks { get; private set; }
+
         public IndexModel(ILogger<IndexModel> logger)
         {
             _logger = logger;

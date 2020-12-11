@@ -1,4 +1,53 @@
-﻿// Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
+﻿function UpdateCount() {
+    $.ajax({
+        url: "/storage/GetTotalNumber",
+        type: "GET",
+        success: function (data) {
+            $("#displayCount").empty();
+            $("#displayCount").append(data);
+        }
+    });
+}
 
-// Write your Javascript code.
+//function AddOne(value) {
+//    $.ajax({
+//        url: "/storage/AddNumber",
+//        type: "GET",
+//        data: { 'value': value },
+//        success: function () {
+//        }
+//    });
+//}
+
+function DDOS(hubConnection) {
+    var time = performance.now();
+
+    for (let i = 0; i < 100000; i++) {
+        hubConnection.invoke("AddValue", '1');
+    }
+
+    console.log('Время выполнения = ', performance.now() - time);
+}
+
+
+$(document).ready(function () {
+    hubConnection = new signalR.HubConnectionBuilder()
+        .withUrl("/counter")
+        .build();
+
+    hubConnection.on("Send", function (data) {
+        $("#displayCount").empty();
+        $("#displayCount").append(data);
+    });
+
+    document.getElementById("sendBtn").addEventListener("click", function (e) {
+        //let message = document.getElementById("message").value;
+        hubConnection.invoke("AddValue", '1');
+    });
+
+    hubConnection.start();
+
+    setInterval(UpdateCount, 200);
+
+    setTimeout(() => { DDOS(hubConnection); }, 5000);
+});
