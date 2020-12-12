@@ -13,7 +13,7 @@ namespace JustAddOne.Models
     {
         private const int FilterDataDelay = 200;
         private const int CalculationDataDelay = 200;
-        private const int MaxStringLength = 100;
+        private const int MaxStringLength = 1000;
 
         private static readonly ServerModel _serverModel = new ServerModel();
         private readonly ConcurrentQueue<string> _rawData;
@@ -82,6 +82,7 @@ namespace JustAddOne.Models
         {
             private readonly List<int> _totalNumber;
             private readonly int _baseLength;
+
             public LongArithetic(int baseStringLength)
             {
                 _baseLength = baseStringLength;

@@ -5,9 +5,13 @@
 }
 
 <div class="text-center">
-    <h1 class="display-4">Очень полезная страница. Просто добавь +1</h1>
+    <h1 class="display-4">Очень полезная страница. Просто добавь число</h1>
+    <div class="input-group">
+        <input id="inputNumber" type="text" class="form-control" placeholder="Введите число...">
+        <span class="input-group-btn">
+            <button id="sendBtn" class="btn btn-success" type="button">Добавить</button>
+        </span>
+    </div>
 
-        <button type="button" id="sendBtn" class="btn btn-success btn-lg">Добавить +1</button>
-
-    <h1 id="displayCount"></h1>
+    <h1 id="displayCount" class="text-break"></h1>
 </div>

@@ -3,8 +3,7 @@
         url: "/storage/GetTotalNumber",
         type: "GET",
         success: function (data) {
-            $("#displayCount").empty();
-            $("#displayCount").append(data);
+            document.getElementById("displayCount").textContent = data;
         }
     });
 }
@@ -41,13 +40,14 @@ $(document).ready(function () {
     });
 
     document.getElementById("sendBtn").addEventListener("click", function (e) {
-        //let message = document.getElementById("message").value;
-        hubConnection.invoke("AddValue", '1');
+        let input = document.getElementById("inputNumber");
+        hubConnection.invoke("AddValue", input.value);
+        input.value = "";
     });
 
     hubConnection.start();
 
-    setInterval(UpdateCount, 200);
+    setInterval(UpdateCount, 500);
 
-    setTimeout(() => { DDOS(hubConnection); }, 5000);
+    //setTimeout(() => { DDOS(hubConnection); }, 5000);
 });

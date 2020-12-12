@@ -11,16 +11,9 @@ namespace JustAddOne.Hubs
     {
         private static int _connectionsCount = 0;
 
-        public async Task AddValue(string number)
+        public void AddValue(string number)
         {
             ServerModel.Instance.AddValue(number);
-            //await Task.Delay(100);
-
-            //if (++_connectionsCount % 100 == 0)
-            //{
-            //    await Send();
-            //    _connectionsCount = 1;
-            //}
         }
 
         public async Task Send()
