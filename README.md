@@ -46,10 +46,15 @@
 Время обработки запросов считалось с помощью специальной функции на стороне клиента.
 
 Count 1 time 0.7200000109151006ms
+
 Count 10 time 1.7550000047776848ms
+
 Count 100 time 10.07499999832362ms
+
 Count 1000 time 91.39499999582767ms
+
 Count 10000 time 954.79499999783ms
+
 Count 100000 time 8214.96000001207ms
 
 ![Метрика1](/screenshots/Metric1.png?raw=true)
@@ -59,30 +64,55 @@ Count 100000 time 8214.96000001207ms
 Проверка производилась при максимальной нагрузке сервера
 
 Sec № 1 Requests 1860ms
+
 Sec № 2 Requests 5535ms
+
 Sec № 3 Requests 10953ms
+
 Sec № 4 Requests 20794ms
+
 Sec № 5 Requests 21053ms
+
 Sec № 6 Requests 18195ms
+
 Sec № 7 Requests 20031ms
+
 Sec № 8 Requests 21539ms
+
 Sec № 9 Requests 19740ms
+
 Sec № 10 Requests 21534ms
+
 Sec № 11 Requests 19740ms
+
 Sec № 12 Requests 19739ms
+
 Sec № 13 Requests 21535ms
+
 Sec № 14 Requests 19739ms
+
 Sec № 15 Requests 21535ms
+
 Sec № 16 Requests 19739ms
+
 Sec № 17 Requests 19740ms
+
 Sec № 18 Requests 21485ms
+
 Sec № 19 Requests 19789ms
+
 Sec № 20 Requests 19740ms
+
 Sec № 21 Requests 19739ms
+
 Sec № 22 Requests 21535ms
+
 Sec № 23 Requests 19739ms
+
 Sec № 24 Requests 20590ms
+
 Sec № 25 Requests 20684ms
+
 Sec № 26 Requests 20322ms
 
 ![Метрика2](/screenshots/Metric2.png?raw=true)
