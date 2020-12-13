@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -11,16 +12,20 @@ namespace JustAddOne.Models
 {
     public sealed class ServerModel : IDisposable
     {
-        private const int FilterDataDelay = 200;
-        private const int CalculationDataDelay = 200;
+        private const int FilterDataDelay = 50;
+        private const int CalculationDataDelay = 50;
         private const int MaxStringLength = 1000;
 
         private static readonly ServerModel _serverModel = new ServerModel();
         private readonly ConcurrentQueue<string> _rawData;
         private readonly ConcurrentQueue<string> _filteredData;
+        private readonly List<double> _countsRequests;
 
         private readonly LongArithetic _LA;
+        private readonly Stopwatch _st;
 
+        private int _currentSec = -1;
+        private int _currentCount = 0;
         private bool _serverRun;
 
         public static ServerModel Instance => _serverModel;
@@ -30,9 +35,11 @@ namespace JustAddOne.Models
 
         private ServerModel()
         {
+            _st = new Stopwatch();
             _LA = new LongArithetic(MaxStringLength);
             _rawData = new ConcurrentQueue<string>();
             _filteredData = new ConcurrentQueue<string>();
+            _countsRequests = new List<double>(2000);
 
             _serverRun = true;
 
@@ -40,15 +47,30 @@ namespace JustAddOne.Models
             ThreadPool.QueueUserWorkItem(CalculationUserData);
         }
 
+
         public void AddValue(string value)
         {
+        //    if (_currentSec != -1 && _currentSec != DateTime.UtcNow.Second)
+        //    {
+        //        _countsRequests.Add(_currentCount);
+        //        _currentCount = 1;
+        //    }
+        //    else
+        //        _currentCount++;
+
+            _currentSec = DateTime.UtcNow.Second;
             _rawData.Enqueue(value);
+
+            //if (_countsRequests.Count > 25)
+            //    StorageModels.SaveResults(_countsRequests, "Metric2");
         }
 
         private async void FilterUserData(object obj)
         {
             while (_serverRun)
             {
+                //_st.Restart();
+
                 if (_rawData.Count > 0 && _rawData.TryDequeue(out var rawItem))
                 {
                     if (string.IsNullOrEmpty(rawItem) || rawItem.Length > MaxStringLength || !rawItem.All(char.IsNumber))
@@ -58,6 +80,12 @@ namespace JustAddOne.Models
                 }
                 else
                     await Task.Delay(FilterDataDelay);
+
+                //_st.Stop();
+                //_countsRequests.Add(_st.ElapsedMilliseconds);
+
+                //if (_countsRequests.Count == 10000)
+                //    StorageModels.SaveResults(_countsRequests, "Metric3");
             }
         }
 
@@ -65,10 +93,18 @@ namespace JustAddOne.Models
         {
             while (_serverRun)
             {
+                //_st.Restart();
+
                 if (_filteredData.Count > 0 && _filteredData.TryDequeue(out var data))
                     _LA.AddNumber(data);
                 else
                     await Task.Delay(CalculationDataDelay);
+
+                //_st.Stop();
+                //_countsRequests.Add(_st.ElapsedMilliseconds);
+
+                //if (_countsRequests.Count == 1000)
+                //    StorageModels.SaveResults(_countsRequests, "Metric4");
             }
         }
 

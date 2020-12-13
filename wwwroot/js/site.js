@@ -21,7 +21,7 @@
 function DDOS(hubConnection) {
     var time = performance.now();
 
-    for (let i = 0; i < 100000; i++) {
+    for (let i = 0; i < 1000; i++) {
         hubConnection.invoke("AddValue", '1');
     }
 
@@ -49,5 +49,5 @@ $(document).ready(function () {
 
     setInterval(UpdateCount, 500);
 
-    //setTimeout(() => { DDOS(hubConnection); }, 5000);
+    setTimeout(() => { DDOS(hubConnection); }, 5000);
 });
